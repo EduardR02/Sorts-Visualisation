@@ -7,6 +7,7 @@ which was the case for me (already done in the makefile).
 I implemented it so it is very easy to add new sorting algorithms, so if you are curious how some funny sorting
 algorithm looks, you could try it out yourself. You will also need to install SFML, I used this tutorial:
 https://www.youtube.com/watch?v=ttYspMwzV8w
+
 Rectangle width, height, sleeping time, and how many updates per single draw you want can all be controlled through the GUI constructor in main,
 and other variables like array length for each algorithm can be found in the enum header file.
 Keyboard controls of sim speed etc. can also be easily implemented with SFML in the handle_events function.
