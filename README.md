@@ -17,14 +17,17 @@ I have grouped the algorithms I implemented into three gifs in this showcase.
 In the code these can run in the same window, with different array lengths and any order,
 this is just so compression does not destroy the visuals too much.
 First are Mergesort and Quicksort, as these are O(nlogn) on average, you can basically have as many elements as you want:
+
 ![alt text][gif2]
 
 Next are algorithms that run in O(n^2) time, like Bubblesort and Insertion sort:
+
 ![alt text][gif1]
 
 And last we have the funny ones, Stooge Sort and Bogosort. For those that don't know, Bogosort just randomly shuffles and hopes
 that the elements will magically sort themselves. They do - just after a VERY long time ( O((n+1)!) ). And it is also a bad idea to increase
 the elements in Stooge Sort, it will just check itself over and over again, even though it is already sorted. Can't hurt to double-check though.
+
 ![alt text][gif3]
 
 
