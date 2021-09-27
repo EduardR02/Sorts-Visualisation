@@ -41,8 +41,8 @@ void GUI::do_all_sorts() {
         do_sort(SortNames::gnome_sort, Complexity::n_squared, my_sorts);
         do_sort(SortNames::pancake_sort, Complexity::n_squared, my_sorts);
         do_sort(SortNames::shell_sort, Complexity::shell_cmplx, my_sorts);
-        /*do_sort(SortNames::quick_sort, Complexity::n_logn, my_sorts);
-        do_sort(SortNames::merge_sort, Complexity::n_logn, my_sorts);*/
+        do_sort(SortNames::quick_sort, Complexity::n_logn, my_sorts);
+        do_sort(SortNames::merge_sort, Complexity::n_logn, my_sorts);
         do_sort(SortNames::stooge_sort, Complexity::stooge_cmplx, my_sorts);
         do_sort(SortNames::bogo_sort, Complexity::bogo_cmplx, my_sorts);
     }
