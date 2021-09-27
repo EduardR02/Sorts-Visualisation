@@ -13,7 +13,7 @@ and other variables like array length for each algorithm can be found in the enu
 Keyboard controls of sim speed etc. can also be easily implemented with SFML in the handle_events function.
 
 
-# Visualisation
+# Visualization
 I have grouped the algorithms I implemented into three gifs in this showcase.
 In the code these can run in the same window, with different array lengths and any order,
 this is just so compression does not destroy the visuals too much.
