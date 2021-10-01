@@ -3,7 +3,7 @@
 std::unique_ptr<sf::Color> Rectangle::selected_color = std::make_unique<sf::Color>(97, 175, 239);
 std::unique_ptr<sf::Color> Rectangle::sorted_color = std::make_unique<sf::Color>(152, 195, 121);
 std::unique_ptr<sf::Color> Rectangle::color = std::make_unique<sf::Color>(224, 108, 117);
-std::unique_ptr<sf::Color> Rectangle::outline_color = std::make_unique<sf::Color>(sf::Color::Black);
+std::unique_ptr<sf::Color> Rectangle::outline_color = std::make_unique<sf::Color>(40, 44, 52);
 
 Rectangle::Rectangle(double width, int height, double posx, int posy, int border_thickness, int sort_id) {
     this->width = width;

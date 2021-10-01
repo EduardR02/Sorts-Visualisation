@@ -1,15 +1,17 @@
 #include "gui.h"
 
-GUI::GUI(double bar_width, int bar_border_thickness, double height_growth,
+GUI::GUI(int window_width, int window_height, int bar_border_thickness,
          int starting_height, int height_gap, int sleep_ms, int updates_per_draw) {
-    this->bar_width = bar_width;
+    this->window_width = window_width;
+    this->window_height = window_height;
+    this->bar_border_thickness = bar_border_thickness;
     this->height_gap = height_gap;
     this->starting_height = starting_height;
-    this->height_growth = height_growth;
     this->sleep_ms = sleep_ms;
     this->updates_per_draw = updates_per_draw;
-    this->bar_border_thickness = bar_border_thickness;
     background_color = std::make_unique<sf::Color>(40, 44, 52);
+    // does not make sense to init bar width and height growth here, as they are dependant on element amt.
+    
     init_texts();
     make_gui(n_squared);
 }
@@ -17,6 +19,7 @@ GUI::GUI(double bar_width, int bar_border_thickness, double height_growth,
 void GUI::fill_array(const Complexity& complexity) {
     if (rectangles.size() == complexity) return;
     rectangles.clear();
+    // border does not count towards sfml rectangle origin coordinates, border goes beyond them.
     for (int i = 0; i < complexity; i++) {
         rectangles.push_back(std::make_unique<Rectangle>(bar_width, std::round(starting_height + (height_growth * i)),
                 (bar_width + bar_border_thickness) * i + bar_border_thickness, window_height, bar_border_thickness, i));
@@ -24,9 +27,9 @@ void GUI::fill_array(const Complexity& complexity) {
 }
 
 void GUI::make_gui(const Complexity& complexity) {
-    this->window_width = (bar_width + bar_border_thickness) * complexity + bar_border_thickness;
-    this->window_height = starting_height + height_growth * (complexity - 1) + height_gap;
-    this->window = std::make_unique<sf::RenderWindow>(sf::VideoMode(window_width, window_height),
+    bar_width = calc_bar_width(complexity);
+    height_growth = calc_bar_height_growth(complexity);
+    window = std::make_unique<sf::RenderWindow>(sf::VideoMode(window_width, window_height),
                                                      "Sort Visualisation", sf::Style::Default);
     fill_array(complexity);
 }
@@ -72,11 +75,8 @@ void GUI::do_sort(const SortNames& sort_name, const Complexity& complexity, Sort
 
 void GUI::change_arr_size(const Complexity& complexity) {
     if (rectangles.size() == complexity) return;
-    bar_width = (double)(window_width - (complexity + 1) * bar_border_thickness) / complexity;
-    height_growth = (height_growth * rectangles.size()) / complexity;
-    window_width = (bar_width + bar_border_thickness) * complexity + bar_border_thickness;
-    window->setSize(sf::Vector2u(window_width, window_height));
-    window->setView(sf::View(sf::FloatRect(0, 0, window_width, window_height)));
+    bar_width = calc_bar_width(complexity);
+    height_growth = calc_bar_height_growth(complexity);
     fill_array(complexity);
 }
 
@@ -91,8 +91,8 @@ void GUI::handle_events(Sorts* my_sorts) {
 }
 
 void GUI::draw_all_rectangles() {
-    for (size_t i = 0; i < rectangles.size(); i++) {
-        window->draw(*rectangles[i]->get_rect());
+    for (auto const& rect: rectangles) {
+        window->draw(*rect->get_rect());
     }
 }
 
@@ -125,4 +125,17 @@ void GUI::set_stats(Sorts* my_sorts, const SortNames& sort_name) {
     stat_text->setString(SortNamesArr[sort_name] + ", " + std::to_string(rectangles.size()) + " Elements\nSwaps:"
                          + std::to_string(my_sorts->get_swaps())
                          + "\nComparisons:" + std::to_string(my_sorts->get_comparisons()));
+}
+
+double GUI::calc_bar_width(const Complexity& complexity) {
+    double new_width =  (double) (window_width - (complexity + 1) * bar_border_thickness) / (double) complexity;
+    return new_width;
+}
+
+double GUI::calc_bar_height_growth(const Complexity& complexity) {
+    return (double) (window_height - starting_height - height_gap) / (double) complexity;
+}
+
+double GUI::calc_adjusted_window_width(const Complexity& complexity) {
+    return (bar_width + bar_border_thickness) * complexity + bar_border_thickness;
 }
